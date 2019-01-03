@@ -14,23 +14,6 @@ const Stack = createMaterialTopTabNavigator({
 },
 
 {
-  navigationOptions: ({ navigation }) => ({
-    tabBarIcon: ({ focused, tintColor }) => {
-      const { routeName } = navigation.state;
-      let iconName;
-      if (routeName === 'Inicial') {
-        iconName = 'checkbox-marked-outline';
-      } else if (routeName === 'Perfil') {
-        iconName = 'account-location';
-      }else if(routeName === 'Config'){
-        iconName = 'settings-outline';
-      }
-
-      // You can return any component that you like here! We usually use an
-      // icon component from react-native-vector-icons
-      return <MaterialCommunityIcons name={iconName} size={25} color={'#fff'} />;
-    },
-  }),
   tabBarOptions: {
     activeTintColor: 'white',
     inactiveTintColor: 'gray',
