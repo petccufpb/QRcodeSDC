@@ -1,6 +1,6 @@
 // tudo o que for ser renderizado, componente, precisa importar:
 import React from 'react';
-//
+
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 //os pontos representam as pastas
 import {Inicial, Perfil, Config} from '../viewer';
@@ -16,10 +16,10 @@ const Stack = createMaterialTopTabNavigator({
 {
   tabBarOptions: {
     activeTintColor: 'white',
-    inactiveTintColor: 'gray',
+    inactiveTintColor: '#fafafa',
     showIcon: true,
     style: {
-      backgroundColor: '#161b1f',
+      backgroundColor: '#01579B',
       elevation: 0,
       borderBottomColor: 'gray',
       borderBottomWidth: 1,
