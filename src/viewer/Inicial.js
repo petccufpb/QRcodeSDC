@@ -1,6 +1,7 @@
 import React from 'react';
-import {View,Text,FlatList,StyleSheet} from 'react-native';
+import {View,Text,FlatList,StyleSheet,TouchableOpacity, Alert} from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+
 const styles = StyleSheet.create({
     container: {
         //flex serve para definir o tamanho da forma e 1 é a tela inteira 
@@ -67,6 +68,10 @@ class Inicial extends React.Component{
         ),
       };
     
+//mostra notificacao
+notificacao (nome,data){
+    Alert.alert("QRCodeSDC",`Nome: ${nome} Data: ${data}`);
+}
     render(){
 
         return(
@@ -76,8 +81,8 @@ class Inicial extends React.Component{
                     keyExtractor={item => item.id}
                     data={this.dias}
                     renderItem={({item}) => (
-                
-                        <View style={styles.containerDias}>
+  
+                        <TouchableOpacity style={styles.containerDias} onPress={() => this.notificacao(item.texto, item.data)}>
                             <View style={styles.containerCirculo}>
                                 <View style={styles.estiloCirculo}>
                                     <Text style={styles.estiloTextoCirculo}>
@@ -91,14 +96,9 @@ class Inicial extends React.Component{
                                     {item.texto}
                                 </Text>    
                             </View>    
-                        </View>
+                        </TouchableOpacity>
                     )}
-                />
-
-{/*                 
-                
-                */}                
-
+                />             
             </View>    
         );
     }
@@ -106,3 +106,6 @@ class Inicial extends React.Component{
 }
 
 export default Inicial;
+
+{/*() => arrow function, https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions
+seta significa retorno, poderia ser substituido por () { return this.notificacao() }   */}          
