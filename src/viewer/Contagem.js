@@ -1,6 +1,7 @@
 import React from 'react';
 import {Text,View, StyleSheet} from 'react-native';
 import ActionButton from 'react-native-action-button';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const styles = StyleSheet.create({
     container: {
@@ -47,13 +48,12 @@ class Contagem extends React.Component{
 
             <Text style={styles.textoCheck}>
                 Check-ins realizados
-            </Text>        
-            <ActionButton
-            buttonColor="rgba(231,76,60,1)"
+            </Text>    
+
+            <ActionButton buttonColor= "rgba(2, 119, 189, 1)" onPress={() => this.incrementador()} renderIcon={() => <MaterialCommunityIcons name="qrcode-scan" color="#fff" size={30}/> }  >
+
+            </ActionButton>
             
-            onPress={() => this.incrementador()}
-            
-            />
         </View>    
     );
 }
@@ -61,3 +61,6 @@ class Contagem extends React.Component{
 } 
 
 export default Contagem;
+
+
+
