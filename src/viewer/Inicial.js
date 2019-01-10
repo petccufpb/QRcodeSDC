@@ -82,7 +82,7 @@ notificacao (nome,data){
                     data={this.dias}
                     renderItem={({item}) => (
   
-                        <TouchableOpacity style={styles.containerDias} onPress={() => this.notificacao(item.texto, item.data)}>
+                        <TouchableOpacity style={styles.containerDias} onPress={() => this.props.navigation.navigate('Contagem')}>
                             <View style={styles.containerCirculo}>
                                 <View style={styles.estiloCirculo}>
                                     <Text style={styles.estiloTextoCirculo}>

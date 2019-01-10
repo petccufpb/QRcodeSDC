@@ -1,22 +1,58 @@
 import React from 'react';
-import {View, StyleSheet} from 'react-native';
+import {Text,View, StyleSheet} from 'react-native';
 import ActionButton from 'react-native-action-button';
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1
+        flex: 1,
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center'   
+    },
+    textoNumero:{
+        fontSize: 100,
+        color: "#01579B"
+    },
+    textoCheck: {
+        fontSize: 30,
+        color: "#0277BD"
     }
-});
+}
+
+);
+
 
 class Contagem extends React.Component{
+//cria-se o constr para criar os atributos & deve-se incluir o super e props
+    constructor(props){
+        super(props);
+//state é um objeto que serve para atualizar o valor das variaveis no render        
+        this.state = {
+            contador: 0
+        };
+    }
 
-
+    incrementador(){
+        let contadorAnterior = this.state.contador;
+        contadorAnterior++;
+        this.setState({contador: contadorAnterior});
+    }
+    
     render(){
     return(
         <View style={styles.container}>
+            <Text style={styles.textoNumero}>
+                {this.state.contador}
+            </Text>
+
+            <Text style={styles.textoCheck}>
+                Check-ins realizados
+            </Text>        
             <ActionButton
             buttonColor="rgba(231,76,60,1)"
-            onPress={() => { console.log("hi")}}
+            
+            onPress={() => this.incrementador()}
+            
             />
         </View>    
     );
