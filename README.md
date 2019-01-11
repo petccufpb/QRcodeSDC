@@ -12,3 +12,6 @@ Configurações: editar perfil da pessoa
 1. Primeiramente pastas
 2. Depois iniciamos códigos em navigation
 3. Novas pastas em viewer e começamos codigo
+
+## Comandos úteis
+1. gradlew clean : limpa 
