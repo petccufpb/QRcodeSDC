@@ -15,3 +15,13 @@ Configurações: editar perfil da pessoa
 
 ## Comandos úteis
 1. gradlew clean : limpa 
+
+## Dirétorio do projeto
+1. 
+2. 
+3.
+
+## Bibliotecas
+1. Redux
+    Inicialmente, instala utilizando: yarn add react-redux & yarn add redux.
+    Em seguida, cria 
