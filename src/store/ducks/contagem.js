@@ -1,3 +1,6 @@
+import firebase from "react-native-firebase";
+import r from "../../util/references";
+import converteDia from "../../util"
 //tipos actions 
 const Types={
 //deve expecificar a duck
@@ -44,3 +47,27 @@ export function mudaDataTexto(data,texto){
     export const mudaDataTexto=(data,texto) => ({type: Types.MODIFICA_DATA_TEXTO, payload:{data,texto}})  
 */
 
+export function escreveDataBase(identidade, dia){
+    try{
+        const ingressos = await firebase.database().ref(r.INGRESSOS).orderByChild('dia').once('value');
+        const ingressosLista = [];
+        const diaNumero = converteDia(dia);
+        let ingressoID;
+        ingressos.forEach(c => {
+            const ingresso = c.val();
+            ingressosLista.push{ingresso};
+        });
+
+        for(let i=0; i<ingressosLista.length; i++){
+            if(diaNumero === ingressoLista[i].dia){
+            ingressoID = ingressoLista[i].id;
+            break;
+            }
+        }
+
+    } catch(e){
+
+
+    }
+
+}

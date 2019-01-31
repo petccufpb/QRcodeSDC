@@ -65,7 +65,12 @@ class Contagem extends React.Component{
 
 //responsavel pela leitura do ingresso    
     onSuccess(e) {
-        Alert.alert('QrCodeSDC',e.data);
+        //ID@dia1
+        const data = "LYFEIN6FElWbS9YrvidEzPUO5nI3@dia1";
+        const separaStringQR = data.split("@");
+        const usuarioID = separaStringQR[0];
+        const ingressoDia = separaStringQR[1];
+
     }
     
     render(){
