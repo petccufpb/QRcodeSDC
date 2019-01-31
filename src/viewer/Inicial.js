@@ -1,6 +1,8 @@
 import React from 'react';
 import {View,Text,FlatList,StyleSheet,TouchableOpacity, Alert} from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import {connect} from 'react-redux'; 
+import {mudaDataTexto} from '../store/ducks/contagem';
 
 const styles = StyleSheet.create({
     container: {
@@ -10,7 +12,7 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'flex-start',
         padding: 16
-    },
+    }, 
     containerDias: {
         height: 96,
         backgroundColor: "#0277BD",
@@ -72,17 +74,22 @@ class Inicial extends React.Component{
 notificacao (nome,data){
     Alert.alert("QRCodeSDC",`Nome: ${nome} Data: ${data}`);
 }
+
+chamaContagem(nome,data){
+    this.props.mudaDataTexto(data,nome); 
+    this.props.navigation.navigate('Contagem'); 
+}
     render(){
 
         return(
             <View style={styles.container}>
-                <FlatList
+                <FlatList 
                     //identificador de cada elemento
                     keyExtractor={item => item.id}
                     data={this.dias}
                     renderItem={({item}) => (
   
-                        <TouchableOpacity style={styles.containerDias} onPress={() => this.props.navigation.navigate('Contagem')}>
+                        <TouchableOpacity style={styles.containerDias} onPress={() => this.chamaContagem(item.data,item.texto)}>
                             <View style={styles.containerCirculo}>
                                 <View style={styles.estiloCirculo}>
                                     <Text style={styles.estiloTextoCirculo}>
@@ -105,7 +112,8 @@ notificacao (nome,data){
 
 }
 
-export default Inicial;
+//os parametros são: o estado e as funções
+export default connect(null,{mudaDataTexto})(Inicial);
 
 {/*() => arrow function, https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions
 seta significa retorno, poderia ser substituido por () { return this.notificacao() }   */}          
