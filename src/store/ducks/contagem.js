@@ -1,6 +1,9 @@
 import firebase from "react-native-firebase";
 import r from "../../util/references";
-import converteDia from "../../util"
+import converteDia from "../../util";
+import uuid from "uuid/v1";
+import {AsyncStorage} from "react-native";
+import {CONTADOR_STORAGE_KEY} from "../../util/consts";
 //tipos actions 
 const Types={
 //deve expecificar a duck
@@ -55,7 +58,7 @@ export function escreveDataBase(identidade, dia){
         let ingressoID;
         ingressos.forEach(c => {
             const ingresso = c.val();
-            ingressosLista.push{ingresso};
+            ingressosLista.push(ingresso);
         });
 
         for(let i=0; i<ingressosLista.length; i++){
@@ -65,9 +68,11 @@ export function escreveDataBase(identidade, dia){
             }
         }
 
+        const idChecking = uuid();
+        await firebase.database().ref(r.CHECKING.concat(idChecking)).set({ id: uidChecking, ingressoId: ingressoID, usuarioId: identidade});
+
     } catch(e){
 
 
     }
-
 }

@@ -113,7 +113,6 @@ class Contagem extends React.Component{
             
     );
 
-
 }
 
 } 
