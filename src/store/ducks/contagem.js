@@ -4,6 +4,7 @@ import converteDia from "../../util";
 import uuid from "uuid/v1";
 import {AsyncStorage} from "react-native";
 import {CONTADOR_STORAGE_KEY} from "../../util/consts";
+
 //tipos actions 
 const Types={
 //deve expecificar a duck
@@ -50,7 +51,8 @@ export function mudaDataTexto(data,texto){
     export const mudaDataTexto=(data,texto) => ({type: Types.MODIFICA_DATA_TEXTO, payload:{data,texto}})  
 */
 
-export function escreveDataBase(identidade, dia){
+//caso utilizar await dentro da função é necessário explicitar que é uma função assíncrona usando "async"
+export async function escreveDataBase(identidade, dia){
     try{
         const ingressos = await firebase.database().ref(r.INGRESSOS).orderByChild('dia').once('value');
         const ingressosLista = [];
@@ -69,7 +71,19 @@ export function escreveDataBase(identidade, dia){
         }
 
         const idChecking = uuid();
+
+        //salva o checkin no firebase
         await firebase.database().ref(r.CHECKING.concat(idChecking)).set({ id: uidChecking, ingressoId: ingressoID, usuarioId: identidade});
+        //atribui a contador os dados salvos na mémoria interna do celular
+        const contador = await AsyncStorage.getItem(CONTADOR_STORAGE_KEY);
+        //teste para determinar se a variavel contador já existe, caso sim incrementa 1, caso não inicializa a variavel com 1. (nos dois casos salva a variavel na memoria do celular)
+        if(contador !== null){
+            const novoContador = contador+1;
+            await AsyncStorage.setItem(CONTADOR_STORAGE_KEY,novoContador);
+        }else{
+            const contador = 1;
+            await AsyncStorage.setItem(CONTADOR_STORAGE_KEY,novoContador);
+        }
 
     } catch(e){
 
