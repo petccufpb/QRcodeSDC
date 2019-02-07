@@ -4,6 +4,7 @@ import ActionButton from 'react-native-action-button';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {connect} from 'react-redux';
 import QRCodeScanner from 'react-native-qrcode-scanner';
+import {escreveDataBase} from '../store/ducks/contagem';
 
 const styles = StyleSheet.create({
     container: {
@@ -66,11 +67,11 @@ class Contagem extends React.Component{
 //responsavel pela leitura do ingresso    
     onSuccess(e) {
         //ID@dia1
-        const data = "LYFEIN6FElWbS9YrvidEzPUO5nI3@dia1";
+        const data = e.data;
         const separaStringQR = data.split("@");
         const usuarioID = separaStringQR[0];
         const ingressoDia = separaStringQR[1];
-
+        this.props.escreveDataBase(usuarioID,ingressoDia);
     }
     
     render(){
@@ -125,6 +126,6 @@ const mapStateToProps= state => ({
 })
 //conectando a tela com o store criado
 //os parâmetros de connect são: a função que mapeia as props e as actions
-export default connect(mapStateToProps,{})(Contagem);
+export default connect(mapStateToProps,{escreveDataBase})(Contagem);
 
 
