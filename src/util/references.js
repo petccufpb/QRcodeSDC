@@ -1,6 +1,8 @@
 // estamos pegando as rotas do banco de dados, ex: ingressos, dia, 
-export const references = {
+const references = {
   USUARIOS: 'v2/usuarios/',
-  INGRESSOS: 'V2/ingressos/',
-  CHECKING: 'v2/checking/'
+  INGRESSOS: 'v2/ingressos/',
+  CHECKING: 'v2/checkin/'
 };
+// references será o arquivo exportado como default
+export default references;

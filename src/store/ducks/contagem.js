@@ -1,6 +1,6 @@
 import firebase from "react-native-firebase";
 import r from "../../util/references";
-import converteDia from "../../util";
+import {converteDia} from "../../util";
 import uuid from "uuid/v1";
 import {AsyncStorage} from "react-native";
 import {CONTADOR_STORAGE_KEY} from "../../util/consts";
@@ -48,6 +48,10 @@ export function mudaDataTexto(data,texto){
         type: Types.MODIFICA_DATA_TEXTO, payload:{data,texto}}
 }
 
+// action para mudar o contador do store (redux)
+export function mudaContador(contador) {
+    return { type: Types.MODIFICA_CONTADOR, payload: contador };
+}
 /*
     Outra forma de construir a função acima
 
@@ -76,8 +80,8 @@ export function escreveDataBase(identidade, dia){
             });
     
             for(let i=0; i<ingressosLista.length; i++){
-                if(diaNumero === ingressoLista[i].dia){
-                ingressoID = ingressoLista[i].id;
+                if(diaNumero === String(ingressosLista[i].dia)) {
+                ingressoID = ingressosLista[i].id;
                 break;
                 }
             }
@@ -85,27 +89,33 @@ export function escreveDataBase(identidade, dia){
             const idChecking = uuid();
     
             //salva o checkin no firebase
-            await firebase.database().ref(r.CHECKING.concat(idChecking)).set({ id: uidChecking, ingressoId: ingressoID, usuarioId: identidade});
+            await firebase.database().ref(r.CHECKING.concat(idChecking)).set({ id: idChecking, ingressoId: ingressoID, usuarioId: identidade});
             //atribui a contador os dados salvos na mémoria interna do celular
-            let contador = await AsyncStorage.getItem(CONTADOR_STORAGE_KEY);
+            // para cada dia deve existir uma KEY com o contador salvo ou seja existem 5 valores salvo na memoria do celular são eles:
+            // CONTADOR_STORAGE_KEY#1 - contador do primeiro dia
+            // CONTADOR_STORAGE_KEY#2 - contador do segundo dia
+            // CONTADOR_STORAGE_KEY#3 - contador do terceiro dia
+            // CONTADOR_STORAGE_KEY#4 - contador do quarto dia
+            // CONTADOR_STORAGE_KEY#5 - contador do quinto dia
+            // apenas foi concatenado o dia ao final da KEY para facilitar
+            let contador = await AsyncStorage.getItem(CONTADOR_STORAGE_KEY.concat('#').concat(diaNumero));
             //teste para determinar se a variavel contador já existe, caso sim incrementa 1, caso não inicializa a variavel com 1. (nos dois casos salva a variavel na memoria do celular)
             if(contador !== null){
-                const novoContador = contador+1;
-                await AsyncStorage.setItem(CONTADOR_STORAGE_KEY,novoContador);
+                const novoContador = Number(contador)+1;
+                await AsyncStorage.setItem(CONTADOR_STORAGE_KEY.concat('#').concat(diaNumero), String(novoContador));
                 contador = novoContador;
             }else{
                 const novoContador = 1;
-                await AsyncStorage.setItem(CONTADOR_STORAGE_KEY,novoContador);
+                await AsyncStorage.setItem(CONTADOR_STORAGE_KEY.concat('#').concat(diaNumero), String(novoContador));
                 contador = novoContador;
             }
             
             dispatch({
-                type: MODIFICA_CONTADOR,
+                type: Types.MODIFICA_CONTADOR,
                 payload: contador
             });
         } catch(e){
-    
-    
+            throw e;
         }
     }
 

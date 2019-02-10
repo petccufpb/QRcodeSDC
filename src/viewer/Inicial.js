@@ -1,8 +1,9 @@
 import React from 'react';
-import {View,Text,FlatList,StyleSheet,TouchableOpacity, Alert} from 'react-native';
+import {View,Text,FlatList,StyleSheet,TouchableOpacity, Alert, AsyncStorage} from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {connect} from 'react-redux'; 
-import {mudaDataTexto} from '../store/ducks/contagem';
+import {mudaDataTexto, mudaContador} from '../store/ducks/contagem';
+import {CONTADOR_STORAGE_KEY} from '../util/consts';
 
 const styles = StyleSheet.create({
     container: {
@@ -75,10 +76,41 @@ notificacao (nome,data){
     Alert.alert("QRCodeSDC",`Nome: ${nome} Data: ${data}`);
 }
 
-chamaContagem(nome,data){
-    this.props.mudaDataTexto(data,nome); 
-    this.props.navigation.navigate('Contagem'); 
+// recebe uma data e retorna o dia de acordo com a data
+dataToDia(data) {
+    switch(data) {
+        case "11/02":
+            return '1';
+        case "12/02":
+            return '2';
+        case "13/02":
+            return '3';
+        case "14/02":
+            return '4';
+        case "15/02":
+            return '5';
+    }
 }
+
+async chamaContagem(data,nome){
+    // Antes de chamar a tela de Contagem precisamos carregar qual a quantidade de check-in de acordo com a data selecionada
+    const diaNumero = this.dataToDia(data); // transforma data para dia (1,2,3,4,5)
+    //@--
+    this.props.mudaDataTexto(data,nome); 
+
+    // carrega, se existir, o contador correspondendo ao dia selecionado
+    let contador = await AsyncStorage.getItem(CONTADOR_STORAGE_KEY.concat('#').concat(diaNumero));
+    // teste se existi algum check-in no dia selecionado
+    if(contador !== null){
+        // modifica o contador de contagem.js (no store do redux)
+        this.props.mudaContador(contador);
+    }else{
+        this.props.mudaContador('0');
+    }
+    // na tela de Contagem o valor do contador já estará atualizado, passa a variavel diaNumero para a tela de contagem
+    this.props.navigation.navigate('Contagem', { diaNumero }); 
+}
+
     render(){
 
         return(
@@ -113,7 +145,7 @@ chamaContagem(nome,data){
 }
 
 //os parametros são: o estado e as funções
-export default connect(null,{mudaDataTexto})(Inicial);
+export default connect(null,{mudaDataTexto, mudaContador})(Inicial);
 
 {/*() => arrow function, https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions
 seta significa retorno, poderia ser substituido por () { return this.notificacao() }   */}          

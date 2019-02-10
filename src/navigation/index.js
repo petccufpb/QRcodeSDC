@@ -20,7 +20,7 @@ const StackTab = createMaterialTopTabNavigator({
     inactiveTintColor: '#fafafa',
     showIcon: true,
     style: {
-      backgroundColor: '#01579B',
+      backgroundColor: '#0277BD',
       elevation: 0,
       borderBottomColor: 'gray',
       borderBottomWidth: 1,
